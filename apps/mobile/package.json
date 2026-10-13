@@ -1,0 +1,38 @@
+{
+  "name": "mobile",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "dependencies": {
+    "@react-navigation/bottom-tabs": "^7.20.0",
+    "@react-navigation/native": "^7.5.0",
+    "expo": "~57.0.27",
+    "expo-crypto": "~57.0.3",
+    "expo-file-system": "~57.0.7",
+    "expo-status-bar": "~57.0.1",
+    "react": "19.2.3",
+    "react-native": "0.86.3",
+    "react-native-safe-area-context": "~5.7.0",
+    "react-native-screens": "~4.26.0"
+  },
+  "devDependencies": {
+    "@types/react": "~19.2.2",
+    "typescript": "~6.0.3"
+  },
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "check:navigation": "node --test scripts/navigation.test.cjs",
+    "check:route-search": "node --test scripts/route-search.test.cjs",
+    "check:sample-data": "node --test scripts/sample-data.test.cjs",
+    "check:stop-search": "node --test scripts/stop-search.test.cjs",
+    "check:fares": "node --test scripts/fare-calculation.test.cjs",
+    "check:direct-routes": "node --test scripts/direct-routes.test.cjs",
+    "check:journeys": "node --test scripts/journeys.test.cjs",
+    "check:maps": "node --test scripts/maps.test.cjs",
+    "check:api": "node --test scripts/api.test.cjs scripts/api-stops.test.cjs",
+    "check:rail": "node --test scripts/rail-data.test.cjs scripts/rail-persistence.test.cjs"
+  },
+  "private": true
+}

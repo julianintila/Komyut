@@ -1,0 +1,322 @@
+{
+  "schema_version": 1,
+  "line": {
+    "id": "mrt3",
+    "code": "MRT-3",
+    "name": "MRT Line 3",
+    "operator": "DOTr-MRT3",
+    "status": "operational",
+    "color": "#2f7fd4"
+  },
+  "provenance": {
+    "generated_on": "2026-10-07",
+    "fares_effective_from": "2015-01-04",
+    "source_url": "https://www.dotrmrt3.gov.ph/",
+    "source_note": "Checked against the operator's own published fare matrix; see verified_note.",
+    "verified_on": "2026-09-18",
+    "verified_note": "Fares unchanged since 4 January 2015: P13 / P16 / P20 / P24 / P28 across five distance bands. The North Avenue and Taft Avenue rows were checked cell by cell against the published 2026 matrix (24 cells, 0 mismatches); together they exercise every span from 1 to 12, so the band model is confirmed for all 78 pairs. The 50% DOTr discount of 23 March 2026 is carried as a modifier, not folded into the bands.",
+    "confidence": "operator-confirmed (published matrix), spot-verified plus structural validation"
+  },
+  "validation": {
+    "pairs": "78/78",
+    "monotonic_along_line": true,
+    "band_model_reproduces_matrix": "78/78 pairs",
+    "band_mismatches": []
+  },
+  "products": {
+    "fare": {
+      "label": "Single Journey Ticket / beep",
+      "storage": "distance_bands"
+    }
+  },
+  "modifiers": [
+    {
+      "id": "dotr_50_discount_2026",
+      "label": "50% DOTr fare discount",
+      "type": "percentage",
+      "value": -50,
+      "requires_user_selection": false,
+      "effective_from": "2026-03-23",
+      "effective_until": null,
+      "note": "Applied across the board to LRT-2 and MRT-3 from 23 March 2026. Announced as a temporary measure with no published end date, so effective_until is null and must be watched. Modelled as a modifier so the base matrix stays correct when it lapses.",
+      "stacks": false,
+      "stacking_note": "Replaces rather than compounds with concession_student_senior_pwd: both are 50%, so a senior pays the same half fare as everyone else while this is in force.",
+      "source_url": "https://www.pna.gov.ph/articles/1271411",
+      "last_confirmed": "2026-09-20"
+    },
+    {
+      "id": "concession_student_senior_pwd",
+      "label": "Student / Senior Citizen / PWD",
+      "type": "percentage",
+      "value": -50,
+      "requires_user_selection": true,
+      "requires": "white beep card (P30 one-time, valid one year, renewable)",
+      "effective_from": "2025-09-20",
+      "effective_until": null,
+      "applies_to_lines": [
+        "lrt1",
+        "lrt2",
+        "mrt3"
+      ],
+      "source_url": "https://tribune.net.ph/2025/09/20/marcos-launches-50-discount-beep-cards-for-students-on-lrt-mrt",
+      "note": "The white beep card applying an automatic 50% was launched 20 September 2025 and covers LRT-1, LRT-2 and MRT-3 alike. An earlier draft of this data carried it on LRT-1 only and dated it to the April 2025 fare hike; both were wrong.",
+      "stacks": false,
+      "stacking_note": "Does not compound with dotr_50_discount_2026. The March 2026 announcements state that concession holders 'will still be entitled to their respective 50% discounts' — they keep half price rather than dropping to a quarter, and no operator publishes a 75% fare. The engine applies the single deepest discount.",
+      "last_confirmed": "2026-09-20"
+    }
+  ],
+  "stations": [
+    {
+      "id": "mrt3_north_avenue",
+      "slug": "north-avenue",
+      "ordinal": 1,
+      "name": "North Avenue",
+      "full_name": "North Avenue",
+      "former_names": [],
+      "lat": 14.6521,
+      "lng": 121.0323,
+      "coordinates_source": "legacy-app-2017",
+      "coordinates_verified": true,
+      "interchanges": [],
+      "coordinates_verified_on": "2026-09-20",
+      "coordinates_verified_against": "wikipedia:North Avenue station (MRT)",
+      "coordinates_verified_delta_m": 41
+    },
+    {
+      "id": "mrt3_quezon_avenue",
+      "slug": "quezon-avenue",
+      "ordinal": 2,
+      "name": "Quezon Avenue",
+      "full_name": "Quezon Avenue",
+      "former_names": [],
+      "lat": 14.6427,
+      "lng": 121.0382,
+      "coordinates_source": "legacy-app-2017",
+      "coordinates_verified": true,
+      "interchanges": [],
+      "coordinates_verified_on": "2026-09-20",
+      "coordinates_verified_against": "wikipedia:Quezon Avenue station",
+      "coordinates_verified_delta_m": 58
+    },
+    {
+      "id": "mrt3_gma_kamuning",
+      "slug": "gma-kamuning",
+      "ordinal": 3,
+      "name": "GMA Kamuning",
+      "full_name": "GMA Kamuning",
+      "former_names": [],
+      "lat": 14.6352,
+      "lng": 121.0433,
+      "coordinates_source": "legacy-app-2017",
+      "coordinates_verified": true,
+      "interchanges": [],
+      "coordinates_verified_on": "2026-09-20",
+      "coordinates_verified_against": "wikipedia:GMA–Kamuning station",
+      "coordinates_verified_delta_m": 9
+    },
+    {
+      "id": "mrt3_araneta_cubao",
+      "slug": "araneta-cubao",
+      "ordinal": 4,
+      "name": "Araneta-Cubao",
+      "full_name": "Araneta-Cubao",
+      "former_names": [],
+      "lat": 14.6193,
+      "lng": 121.0512,
+      "coordinates_source": "legacy-app-2017",
+      "coordinates_verified": true,
+      "interchanges": [
+        {
+          "station_id": "lrt2_araneta_center_cubao",
+          "line_id": "lrt2",
+          "walk_minutes": 10,
+          "walk_note": "Longest transfer of the three: an indoor route through Farmers Plaza and Gateway Mall. Two sources give 8-10 and 10-15 minutes. The mall corridors close overnight, so the late-evening walk is longer and outdoors.",
+          "walk_source_url": "https://mappedatlas.com/commute-index/street-logic/cubao-araneta/"
+        }
+      ],
+      "coordinates_verified_on": "2026-09-20",
+      "coordinates_verified_against": "wikipedia:Araneta Center–Cubao station (MRT)",
+      "coordinates_verified_delta_m": 23
+    },
+    {
+      "id": "mrt3_santolan_annapolis",
+      "slug": "santolan-annapolis",
+      "ordinal": 5,
+      "name": "Santolan-Annapolis",
+      "full_name": "Santolan-Annapolis",
+      "former_names": [],
+      "lat": 14.6078,
+      "lng": 121.0564,
+      "coordinates_source": "legacy-app-2017",
+      "coordinates_verified": true,
+      "interchanges": [],
+      "coordinates_verified_on": "2026-09-20",
+      "coordinates_verified_against": "wikipedia:Santolan–Annapolis station",
+      "coordinates_verified_delta_m": 11
+    },
+    {
+      "id": "mrt3_ortigas",
+      "slug": "ortigas",
+      "ordinal": 6,
+      "name": "Ortigas",
+      "full_name": "Ortigas",
+      "former_names": [],
+      "lat": 14.5878,
+      "lng": 121.0567,
+      "coordinates_source": "legacy-app-2017",
+      "coordinates_verified": true,
+      "interchanges": [],
+      "coordinates_verified_on": "2026-09-20",
+      "coordinates_verified_against": "wikipedia:Ortigas station",
+      "coordinates_verified_delta_m": 25
+    },
+    {
+      "id": "mrt3_shaw_boulevard",
+      "slug": "shaw-boulevard",
+      "ordinal": 7,
+      "name": "Shaw Boulevard",
+      "full_name": "Shaw Boulevard",
+      "former_names": [],
+      "lat": 14.5812,
+      "lng": 121.0536,
+      "coordinates_source": "legacy-app-2017",
+      "coordinates_verified": true,
+      "interchanges": [],
+      "coordinates_verified_on": "2026-09-20",
+      "coordinates_verified_against": "wikipedia:Shaw Boulevard station",
+      "coordinates_verified_delta_m": 24
+    },
+    {
+      "id": "mrt3_boni",
+      "slug": "boni",
+      "ordinal": 8,
+      "name": "Boni",
+      "full_name": "Boni",
+      "former_names": [],
+      "lat": 14.5737,
+      "lng": 121.0482,
+      "coordinates_source": "legacy-app-2017",
+      "coordinates_verified": true,
+      "interchanges": [],
+      "coordinates_verified_on": "2026-09-20",
+      "coordinates_verified_against": "wikipedia:Boni station",
+      "coordinates_verified_delta_m": 8
+    },
+    {
+      "id": "mrt3_guadalupe",
+      "slug": "guadalupe",
+      "ordinal": 9,
+      "name": "Guadalupe",
+      "full_name": "Guadalupe",
+      "former_names": [],
+      "lat": 14.5666455,
+      "lng": 121.0454599,
+      "coordinates_source": "legacy-app-2017",
+      "coordinates_verified": true,
+      "interchanges": [],
+      "coordinates_verified_on": "2026-09-20",
+      "coordinates_verified_against": "wikipedia:Guadalupe station (MRT)",
+      "coordinates_verified_delta_m": 24
+    },
+    {
+      "id": "mrt3_buendia",
+      "slug": "buendia",
+      "ordinal": 10,
+      "name": "Buendia",
+      "full_name": "Buendia (Gil Puyat)",
+      "former_names": [],
+      "lat": 14.5547,
+      "lng": 121.0346,
+      "coordinates_source": "legacy-app-2017",
+      "coordinates_verified": true,
+      "interchanges": [],
+      "coordinates_verified_on": "2026-09-20",
+      "coordinates_verified_against": "wikipedia:Buendia station (MRT)",
+      "coordinates_verified_delta_m": 78
+    },
+    {
+      "id": "mrt3_ayala",
+      "slug": "ayala",
+      "ordinal": 11,
+      "name": "Ayala",
+      "full_name": "Ayala",
+      "former_names": [],
+      "lat": 14.5492,
+      "lng": 121.028,
+      "coordinates_source": "legacy-app-2017",
+      "coordinates_verified": true,
+      "interchanges": [],
+      "coordinates_verified_on": "2026-09-20",
+      "coordinates_verified_against": "wikipedia:Ayala station",
+      "coordinates_verified_delta_m": 45
+    },
+    {
+      "id": "mrt3_magallanes",
+      "slug": "magallanes",
+      "ordinal": 12,
+      "name": "Magallanes",
+      "full_name": "Magallanes",
+      "former_names": [],
+      "lat": 14.5419,
+      "lng": 121.0193,
+      "coordinates_source": "legacy-app-2017",
+      "coordinates_verified": true,
+      "interchanges": [],
+      "coordinates_verified_on": "2026-09-20",
+      "coordinates_verified_against": "wikipedia:Magallanes station",
+      "coordinates_verified_delta_m": 15
+    },
+    {
+      "id": "mrt3_taft_avenue",
+      "slug": "taft-avenue",
+      "ordinal": 13,
+      "name": "Taft Avenue",
+      "full_name": "Taft Avenue",
+      "former_names": [],
+      "lat": 14.5376,
+      "lng": 121.0017,
+      "coordinates_source": "legacy-app-2017",
+      "coordinates_verified": true,
+      "interchanges": [
+        {
+          "station_id": "lrt1_edsa",
+          "line_id": "lrt1",
+          "walk_minutes": 7,
+          "walk_note": "Covered pedestrian walkway at street level across EDSA; published range 5-7 minutes. Slower in heavy rain.",
+          "walk_source_url": "https://3d-universal.com/en/blogs/how-to-transfer-between-mrt-and-lrt-lines.html"
+        }
+      ],
+      "coordinates_verified_on": "2026-09-20",
+      "coordinates_verified_against": "wikipedia:Taft Avenue station",
+      "coordinates_verified_delta_m": 33
+    }
+  ],
+  "fares": {
+    "model": "distance_bands",
+    "currency": "PHP",
+    "product": "fare",
+    "note": "Fare is a function of |to_ordinal - from_ordinal|; take the highest band that matches.",
+    "bands": [
+      {
+        "min_span": 0,
+        "fare": 13
+      },
+      {
+        "min_span": 3,
+        "fare": 16
+      },
+      {
+        "min_span": 5,
+        "fare": 20
+      },
+      {
+        "min_span": 8,
+        "fare": 24
+      },
+      {
+        "min_span": 11,
+        "fare": 28
+      }
+    ]
+  }
+}
