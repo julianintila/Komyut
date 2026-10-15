@@ -96,11 +96,105 @@ checks the public contracts. No PostgreSQL tests are needed for this module.
 
 Task 2 (persistent caching/refresh) is implemented separately under persistence/;
 its README describes safety controls, dependencies, checks and native limitations.
-Task 3 (additional fare-engine coverage) and Task 4 (UI integration) are not started.
-App screens continue using their existing data sources. Native rendering/runtime
+UI integration is implemented in the separately approved Brick 19, below.
+Additional fare-policy behavior remains deferred. Native rendering/runtime
 integration remains unverified here.
 
 Task 1 results: 41 rail tests and all 162 mobile tests passed, with zero failures
 or skips; TypeScript passed. Expo dependency compatibility exits 1 recommending
 57.0.28 instead of installed 57.0.27; no dependency was changed for that existing
 warning. Mobile lint remains unavailable because it has no lint configuration.
+
+## Brick 19 - Rail Search UI
+
+Search has an explicit Train stations entry, separate from sample/API stops.
+RailSearchScreen uses ui/useRailData.ts and a lazy session-scoped repository in
+ui/railRepository.ts. First opening rail mode calls load() to revalidate persisted
+data or select the bundled fallback. Returning to rail mode reuses the repository;
+there is no automatic network refresh. Refresh rail data is an explicit action,
+and the previous dataset remains usable during refresh or failure.
+
+Station names, full names and aliases are searchable. Choosing From restricts To
+to the same line; identical stations are rejected. Changing From to another line
+clears an incompatible To. Ticket selection uses the existing pure fare derivation
+with the current Philippine calendar date. UI state is local and not persisted.
+
+Estimates display the ticket base, not the currently payable fare; no modifier is
+applied. Source freshness warnings, line generation, source verification claims,
+base effective date, manifest generation and download receipt remain separate.
+Bundled/persisted status, TrainsPh attribution, license and source URL are shown.
+The approved unified Home follow-up now uses rail/API From/To selections;
+fictional sample planning is preserved under Search. Home initializes the same
+session repository on mount without automatic refresh. API failures never
+substitute samples on Home. The existing API client remains unchanged.
+RailFareDetails preserves attribution and technical source dates, license,
+source links and manual refresh inside an expandable details view. The main
+screen has no baseline label, attribution URL block or update action.
+Estimate disclaimers and freshness warnings remain
+visible. API/mixed-source route planning remains unsupported.
+
+Focused checks include scripts/rail-ui.test.cjs and scripts/navigation.test.cjs.
+The latter inspects element/event wiring with native hosts stubbed, not pixels.
+Physical-device layout, screen-reader output and real filesystem recovery still
+need verification. No transfers, cross-line fares or journey times are introduced.
+
+Brick 19 verification: 71 focused rail tests, 23 navigation/UI/lifecycle checks
+(overlapping the rail suite), and all 196 mobile tests passed with no skips.
+TypeScript and git diff --check passed; Android/iOS Metro bundles returned 200.
+Expo compatibility retains the existing patch warning; lint is not configured.
+
+Historical Brick 19 device checklist (Search is now hidden): search Recto, choose it as From,
+choose Antipolo as To, and switch between Stored value and Single Journey. Check
+the base-fare disclaimer, individual source dates and attribution. Choose the
+same station twice to check validation; change From to another line to check To
+is cleared. Test airplane mode on first launch, failed refresh with stations still
+available, and restart after a successful refresh to check persisted status.
+Check a small screen with the keyboard open, larger text and a screen reader.
+Return to Sample / API stops and verify the other tabs still behave as before.
+
+## Approved Reported Train Intervals
+
+The active Home screen has only From/To search and adjacent base-fare columns.
+Search/Nearby/Saved remain dormant. Technical fare details and ticket selection
+are not shown on Home; source credit/license links and important warnings remain.
+
+timing/reportedRailInterval.ts adds a separate, framework-independent interval
+lookup. timing/data/2026-10-14/ contains unchanged headways.json and manifest.json
+downloaded on 2026-10-14 from https://trainsph-data.web.app/. The manifest was
+generated on 2026-10-13; the timing file and its source verification claims are
+2026-10-07. These dates are not rewritten to the download date.
+
+Published intervals normalize to about 4 minutes for LRT-1, 13 for LRT-2 and 9
+for MRT-3. Original notes explain the source's normalization of reported figures.
+Underlying sources include Philstar's 2026-07-20 report and DOTr-MRT3's
+2025-11-20 modernization statement. These remain publisher claims, not independent
+Komyut verification or proof of current service. Original source URLs/notes are
+retained in the snapshot. The TrainsPh data page states CC BY 4.0 reuse terms
+(with separate exceptions); the manifest declares CC-BY-4.0 and has no headway
+license override. Credit remains TrainsPh with the license/source links.
+
+The original 2888 timing bytes match the manifest SHA-256
+c93f9cd11e5d93d4d9a5f593522e9ff6479c6bd841cf180bf00d8130e6f0779d.
+Tests verify original-byte integrity; runtime JSON imports are structurally
+validated. Matching hashes establish consistency, not authenticity or freshness.
+
+Schema, provenance, HTTPS URLs, clock bands, overlap and interval bounds are
+validated. Invalid/missing data, unsupported lines, future dates and claims older
+than 30 days return unavailable. Thirty days is a conservative product cutoff,
+not an operator update schedule or a guarantee of validity. A fresh download or
+new manifest does not reset source age. The current snapshot expires after
+2026-11-06 unless replaced with reviewed data in a later approved update.
+
+Home shows Reported train interval: about N min / Not live. Service intervals vary.
+Missing/outdated timing shows Timing unavailable while fares keep working.
+The function returns isLive false and nextArrivalAt null. It summarizes intervals
+across published bands, never calculates a countdown, asserts service is currently
+open, predicts arrival/travel duration, or derives a departure from operating hours.
+Peak/off-peak variations, holidays, disruptions and platform-specific arrivals
+are not known. Different band values produce a reported range, not a chosen ETA.
+
+This snapshot works offline, separately from the existing persisted fare bundle.
+It is not automatically downloaded/refreshed by that repository. No cache format,
+fare policy, API client, backend, dependency, or background operation is changed.
+Tests use fixed calendar dates, local snapshots and synthetic invalid candidates.
+Device layout and real-world interval accuracy remain unverified.

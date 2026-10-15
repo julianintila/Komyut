@@ -20,6 +20,8 @@ import type { StopType, TransportStop } from '../features/transport/types';
 import { getMapStops, selectStopById } from '../features/transport/mapStops';
 import { StopMapDetails } from './StopMapDetails';
 import { useApiStops } from '../api/useApiStops';
+import { RailSearchScreen } from './RailSearchScreen';
+import { SampleJourneyPlanner } from './SampleJourneyPlanner';
 
 const stopTypeLabels: Record<StopType, string> = {
   bus_stop: 'Bus stop',
@@ -33,11 +35,16 @@ export function SearchScreen() {
   const [terminalsOnly, setTerminalsOnly] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const api = useApiStops(query, terminalsOnly ? 'transport_terminal' : undefined);
+  const [railMode, setRailMode] = useState(false);
+  const [samplePlanner, setSamplePlanner] = useState(false);
   const remote = api.state.status === 'success';
   const collection = api.state.status === 'success' ? api.state.response.data : sampleStops;
   const results = searchStops(query, collection, terminalsOnly ? 'transport_terminal' : undefined);
   const selectedStop = selectedId === null ? undefined : selectStopById(results, selectedId);
   const mapStops = getMapStops(results);
+
+  if (railMode) return <RailSearchScreen onBack={() => setRailMode(false)} />;
+  if (samplePlanner) return <SampleJourneyPlanner onBack={() => setSamplePlanner(false)} />;
 
   return (
     <SafeAreaView edges={['top', 'left', 'right']} style={screenStyles.screen}>
@@ -55,6 +62,34 @@ export function SearchScreen() {
           ListHeaderComponent={
             <View style={styles.header}>
               <Text accessibilityRole="header" style={screenStyles.title}>Search</Text>
+              <View accessibilityRole="tablist" style={styles.modes}>
+                <Pressable accessibilityRole="tab" accessibilityLabel="Stops and terminals" accessibilityState={{ selected: true }} onPress={() => setRailMode(false)} style={[styles.mode, styles.selectedMode]}>
+                  <Text style={styles.clearLabel}>Stops &amp; terminals</Text>
+                  <Text style={styles.caption}>Selected</Text>
+                </Pressable>
+                <Pressable accessibilityRole="tab" accessibilityLabel="Search TrainsPh rail stations" accessibilityState={{ selected: false }}
+                  onPress={() => { api.useSamples(); setSelectedId(null); setRailMode(true); }} style={styles.mode}>
+                  <Text style={styles.clearLabel}>Train stations</Text>
+                </Pressable>
+              </View>
+              <Pressable accessibilityRole="button" accessibilityLabel="Open sample journey planner" onPress={() => { api.useSamples(); setSamplePlanner(true); }} style={styles.plannerAction}>
+                <Text style={styles.clearLabel}>Sample journey planner</Text>
+              </Pressable>
+              <Text nativeID="stop-search-label" style={styles.label}>Name or address</Text>
+              <TextInput
+                testID="stop-search-input"
+                accessibilityLabel="Search stops and terminals by name or address"
+                accessibilityLabelledBy="stop-search-label"
+                value={query} maxLength={120} onChangeText={setQuery}
+                placeholder={remote ? 'Enter a stop name or address' : 'e.g. Sample Bayan'}
+                placeholderTextColor={colors.textSecondary} autoCorrect={false}
+                autoCapitalize="none" returnKeyType="search" style={styles.input}
+              />
+              <Pressable accessibilityRole="button" accessibilityLabel="Clear search"
+                accessibilityState={{ disabled: query.length === 0 }} disabled={query.length === 0}
+                onPress={() => setQuery('')} style={({ pressed }) => [styles.clearButton, pressed && styles.pressed]}>
+                <Text style={[styles.clearLabel, query.length === 0 && styles.secondary]}>Clear search</Text>
+              </Pressable>
               <Text style={styles.secondary}>{remote ? 'API stops. Check source details; no verification is implied.' : 'Fictional sample stops. Not for travel planning.'}</Text>
               <Pressable accessibilityRole="button" accessibilityLabel={api.state.status === 'error' ? 'Retry API stops' : 'Load API stops'}
                 disabled={api.state.status === 'loading'} accessibilityState={{ disabled: api.state.status === 'loading' }}
@@ -68,31 +103,6 @@ export function SearchScreen() {
               {api.state.status === 'error' && <Text accessibilityRole="alert" accessibilityLiveRegion="polite" style={styles.secondary}>{`${api.state.message} Showing fictional samples instead.`}</Text>}
               {api.state.status === 'success' && api.state.response.meta.hasMore && <Text style={styles.secondary}>More API matches exist. Narrow your search to see them.</Text>}
               {mapStops.length === 0 && <Text style={styles.secondary}>No configured stop locations to show on a map.</Text>}
-              <Text nativeID="stop-search-label" style={styles.label}>Name or address</Text>
-              <TextInput
-                testID="stop-search-input"
-                accessibilityLabel="Search stops and terminals by name or address"
-                accessibilityLabelledBy="stop-search-label"
-                value={query}
-                maxLength={120}
-                onChangeText={setQuery}
-                placeholder="e.g. Sample Bayan"
-                placeholderTextColor={colors.textSecondary}
-                autoCorrect={false}
-                autoCapitalize="none"
-                returnKeyType="search"
-                style={styles.input}
-              />
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="Clear search"
-                accessibilityState={{ disabled: query.length === 0 }}
-                disabled={query.length === 0}
-                onPress={() => setQuery('')}
-                style={({ pressed }) => [styles.clearButton, pressed && styles.pressed]}
-              >
-                <Text style={[styles.clearLabel, query.length === 0 && styles.secondary]}>Clear search</Text>
-              </Pressable>
               <View style={styles.filter}>
                 <Text style={styles.filterLabel}>Terminals only</Text>
                 <Switch
@@ -103,6 +113,7 @@ export function SearchScreen() {
                   thumbColor={colors.surface}
                 />
               </View>
+              <Text accessibilityRole="header" style={styles.label}>Matching stops</Text>
               <Text accessibilityLiveRegion="polite" style={styles.secondary}>
                 {results.length} {remote ? (results.length === 1 ? 'API stop' : 'API stops') : (results.length === 1 ? 'sample stop' : 'sample stops')}
               </Text>
@@ -143,6 +154,12 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
     marginBottom: spacing.md,
   },
+  modes: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginVertical: spacing.sm },
+  mode: { flexGrow: 1, flexBasis: 120, minHeight: 56, justifyContent: 'center', padding: spacing.sm,
+    borderBottomWidth: 2, borderBottomColor: colors.border },
+  selectedMode: { backgroundColor: colors.surface, borderBottomColor: colors.primary },
+  caption: { color: colors.textSecondary, fontSize: typography.fontSize.caption, lineHeight: typography.lineHeight.caption },
+  plannerAction: { minHeight: 48, justifyContent: 'center', alignSelf: 'flex-start', marginBottom: spacing.sm },
   label: {
     color: colors.text,
     fontSize: typography.fontSize.body,
@@ -158,7 +175,7 @@ const styles = StyleSheet.create({
     minHeight: 48,
     backgroundColor: colors.surface,
     color: colors.text,
-    borderColor: colors.border,
+    borderColor: colors.primary,
     borderWidth: 1,
     borderRadius: radii.md,
     paddingHorizontal: spacing.md,
@@ -195,7 +212,7 @@ const styles = StyleSheet.create({
     lineHeight: typography.lineHeight.body,
   },
   stop: {
-    gap: spacing.xs,
+    gap: spacing.sm,
     backgroundColor: colors.surface,
     padding: spacing.md,
     borderBottomColor: colors.border,

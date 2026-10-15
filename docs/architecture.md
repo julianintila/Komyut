@@ -917,8 +917,9 @@ No existing backend, importer, generic fare engine or screen behavior changes.
 `apps/mobile/src/features/rail/persistence/` adds injected original-byte integrity,
 bounded fetch, file storage and active-data selection modules, plus SDK 57 Expo
 adapters. The pure rail index/fare functions do not import native modules. Existing
-screens, samples and Laravel client remain untouched; no repository is yet
-instantiated by the UI. No refresh runs automatically or in the background.
+screens, samples and Laravel client were untouched in Task 2. Brick 19 separately
+connects the repository to rail Search. No refresh runs automatically or in the
+background.
 
 Durable versions live under Paths.document/komyut-rail-v1. Each version retains
 original manifest/line bytes and a separately dated receipt. Complete staged data
@@ -939,7 +940,82 @@ required for the selected storage/hash APIs. Device persistence/crash behavior
 remains unverified; tests use mocked network/storage and SDK-shaped adapters.
 See persistence/README.md for commit semantics, commands and dependency warnings.
 
+## Brick 19 - Rail UI Integration
+
+SearchScreen offers an explicit Train stations mode using RailSearchScreen.
+Sample/API search remains separate; entering rail mode cancels API search and
+returning selects fictional samples, with API loading still available. Home,
+Nearby, Saved, navigation, sample records and the Laravel client are unchanged.
+
+features/rail/ui/railRepository.ts creates one lazy Expo repository per session.
+useRailData loads it when rail mode mounts, handles safe initialization/retry,
+preserves last-known-good data during explicit refresh and ignores late hook
+updates after unmount. Loading the app does not automatically fetch rail data.
+Persistent cache validation/whole-bundle activation stays in the existing layer.
+
+railSelection.ts contains pure same-line/distinct-station selection and Philippine
+calendar-date handling. The UI searches station names/full names/aliases, filters
+To by the chosen From line and exposes existing ticket-base derivation. It labels
+source-recorded bases, never payable fares, and applies no discount modifiers.
+Source freshness, line/manifest generation, source verification, fare effective
+dates and receipt time are separate, with TrainsPh attribution and cache origin.
+No cross-line fares, transfers or journey-time predictions are added.
+
+Tests cover lifecycle, selection, source separation and element/event wiring.
+Native hosts/hooks are mocked; device layout, accessibility and offline restart
+behavior still require manual verification. No dependencies were added.
+
 ## Planned Boundaries
+
+### Approved Unified Home Follow-Up
+
+Home now uses one From/To form with source-labelled local rail stations and API
+stop records. Focusing a field opts into the existing debounced API hook. Home
+never substitutes fictional samples on API errors/empty results; rail data remains
+available separately. Suggestions are bounded to six per source with refinement
+messages. A selection keeps its source and ID; editing invalidates it, and swap
+preserves both selections. Typed text alone is not accepted as a resolved stop.
+
+Same-line rail pairs reuse pure base-fare derivation. API or mixed-source pairs
+explicitly report unsupported route planning; no bus/mixed journey is invented.
+The previous sample planner is preserved under Search as SampleJourneyPlanner.
+Home has no sample suggestions. RailFareDetails retains attribution, separate
+source dates, license, URL and manual refresh inside an expandable details view.
+The main view omits baseline labels and update controls. Estimate disclaimers, freshness
+warnings and cache-failure notices remain visible. The existing API client,
+repository, models, fare policy and backend are unchanged. Sakay.ph's published
+preview inspired the compact location form and line/ticket/fare summary, without
+adding maps, travel times or unsupported journey options. Home now initializes
+local rail data on mount; network refresh is still explicit.
+
+Verification: 204 mobile tests and 71 rail checks passed with no failures/skips;
+TypeScript passed. Expo retains the existing patch warning. Actual API records,
+iPhone rendering/accessibility and offline restart remain unverified.
+
+Approved Home-only UI follow-up: MobileNavigator now registers only Home and
+renders no bottom tab bar. Home includes the bottom safe-area inset. Search,
+Nearby, Saved, the sample planner and TabBar code remain in the repository but
+are not reachable in the current app UI. Existing route type names are retained
+for dormant screen code; they do not indicate active navigation destinations.
+Home's rail/API input and fare behavior, persistence and backend are unchanged.
+
+The subsequent Home fare-presentation follow-up removes the Fare details control
+and ticket selector from the active UI. Both stored-value and Single Journey
+base estimates use the existing pure engine and are displayed in adjacent,
+wrapping columns. A small TrainsPh source credit and CC BY 4.0 license link remain;
+source-link failures are handled safely. Technical provenance remains in the
+dataset, not a user-facing metadata panel. Estimate disclaimers and freshness
+warnings remain visible. Dormant rail-screen code is preserved without changing
+fare policy, caching or backend behavior.
+
+Approved reported-interval follow-up: features/rail/timing/ contains an independently
+dated bundled headway snapshot and pure validated lookup. It is deliberately
+separate from the existing fare cache/refresh protocol. Home shows a reported
+train interval below both fares, labelled Not live; no arrival countdown, service
+status or travel duration is inferred. Source verification claims older than 30
+days, invalid/future data or missing records produce Timing unavailable. Fare
+behavior is unaffected. The rail README documents original sources, CC BY 4.0,
+byte integrity, expiry and limitations. No runtime timing fetch is introduced.
 
 UI components will handle presentation and interaction. Business logic,
 transport models, and API calls will remain separate from UI code as their

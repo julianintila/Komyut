@@ -160,5 +160,30 @@ Mobile lint remains unavailable because it has no lint configuration. Native
 device rendering, measured safe-area/keyboard behavior, and screen-reader
 announcements remain unverified; native hosts and React hooks are stubbed in
 the wiring checks. External map launching has not been verified on a device.
-Bricks 16 through 18 remain pending and require explicit
-approval one brick at a time.
+The original website/admin/deployment bricks 16 through 18 remain pending;
+the supplemental user-numbered rail tasks do not complete those web milestones.
+
+User-designated Brick 19: local-first rail UI integration is implemented as an
+explicit Train stations mode in Search. A lazy session repository loads/revalidates
+local data on first rail-mode mount; refresh is manual and failures keep the last
+valid data visible. Station selection is same-line only and rejects identical
+stations. Stored-value/Single Journey source base estimates retain null payable
+amounts and apply no discounts. Attribution, bundled/persisted origin, source
+freshness and separate generation/verification/effective/download dates are shown.
+All 196 mobile tests (71 focused rail) passed with zero failures/skips and
+TypeScript passed; Android and iOS Metro bundles returned HTTP 200. Expo
+compatibility still exits 1 for the existing 57.0.28 recommendation; no package was
+upgraded. Native device layout/offline behavior is not verified by mocked tests.
+No backend, PostgreSQL, importer, Home samples, existing API client or navigation
+change was introduced. Stop here; further work requires explicit approval.
+
+Approved Home follow-ups retain Home only in visible navigation, with real API
+stop/rail suggestions and side-by-side ticket base estimates. Technical details
+are hidden from the active screen; dormant features remain in the repository.
+The separately approved timing addition shows sourced reported train intervals,
+not live arrivals. A validated offline snapshot expires 30 days after its own
+source verification claim and falls back to Timing unavailable. All 211 mobile
+tests and 78 focused rail tests passed with no failures/skips; TypeScript passed.
+The existing Expo patch warning remains. Device and real-world accuracy checks
+remain unverified. No deployment, live feed, background refresh, backend or fare
+policy change is made. Stop for approval before further implementation.

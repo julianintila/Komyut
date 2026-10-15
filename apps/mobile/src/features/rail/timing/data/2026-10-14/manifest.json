@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "generated_on": "2026-10-13",
+  "license": {
+    "id": "CC-BY-4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Fare and station data: TrainsPh (https://trains.ph), CC BY 4.0"
+  },
+  "lines": [
+    {
+      "id": "lrt1",
+      "code": "LRT-1",
+      "status": "operational",
+      "sha256": "4eaebd7ac893df0ddeae4b039c54c2deb0a32a17c24a86486c3f6f1eb1b045fa",
+      "bytes": 25029,
+      "verified_on": "2026-09-18",
+      "fares_effective_from": "2025-04-02"
+    },
+    {
+      "id": "lrt2",
+      "code": "LRT-2",
+      "status": "operational",
+      "sha256": "61f4752fb001c03559202488bcab6f14fa8c366abe99c3072587603c8818feea",
+      "bytes": 13891,
+      "verified_on": "2026-09-18",
+      "fares_effective_from": "2023-08-02"
+    },
+    {
+      "id": "mrt3",
+      "code": "MRT-3",
+      "status": "operational",
+      "sha256": "68d8a6c61b9e902422bd2ed7188192691f368155448ba8ef4ee5166faf994f29",
+      "bytes": 11147,
+      "verified_on": "2026-09-18",
+      "fares_effective_from": "2015-01-04"
+    },
+    {
+      "id": "pnr",
+      "code": "PNR",
+      "status": "partial",
+      "sha256": "855b3f3a1d577918e9f94e3785970dea25991eb43abbcce310d748bddef1d06c",
+      "bytes": 59948,
+      "verified_on": "2026-10-13",
+      "fares_effective_from": null
+    }
+  ],
+  "crowd_baseline": {
+    "sha256": "c098cffee0cc5a73132d22b2f28ae2a3f2799ba939f416f4b35400b8519d3e5f",
+    "bytes": 38671
+  },
+  "advisories": {
+    "sha256": "12cc1886d92afc61bae2a78f164f411ee86193445a2161a85c3424129061bb87",
+    "bytes": 4189,
+    "count": 1
+  },
+  "landmarks": {
+    "sha256": "ff31293d71f05425ad5480c5a8ce7bbc206c2fe4ff1386062608315925578743",
+    "bytes": 17923,
+    "count": 51,
+    "license": "CC-BY-SA-4.0"
+  },
+  "service_hours": {
+    "sha256": "9d55d167520d5b117496898bbb89fc5c52aa5d4871e1b4fa20ead221ed9499d6",
+    "bytes": 5683,
+    "lines_known": 2
+  },
+  "timetable": {
+    "sha256": "ea1fda0892508787986c81c2f07fd80e23187ccff8fc4a6e88df2ef26978513c",
+    "bytes": 21426,
+    "trips": 10
+  },
+  "run_times": {
+    "sha256": "770c32c7ae01da2b6578d59214c99ca9db95f1263bd8b9c3e535aebb41c5dd64",
+    "bytes": 4104,
+    "segments": 12
+  },
+  "headways": {
+    "sha256": "c93f9cd11e5d93d4d9a5f593522e9ff6479c6bd841cf180bf00d8130e6f0779d",
+    "bytes": 2888,
+    "known": 3
+  },
+  "learned": {
+    "sha256": "88232fde4ed495396de9af17489c62278a754e78bfbef1a5a4cff3b5800cce24",
+    "bytes": 789,
+    "known": 0
+  },
+  "platform_sides": {
+    "sha256": "a000b37ec8c9b721e684c6e948f29393c77349f54e58412239062286902c53a3",
+    "bytes": 3854,
+    "known": 49
+  },
+  "riding_rules": {
+    "sha256": "11b3922be3bd6753ea19605fdee0f61706a48c740a21badbdb6df40624e1b262",
+    "bytes": 2623,
+    "boarding_known": 1,
+    "folding_bikes_known": 1
+  },
+  "geography": {
+    "sha256": "9d1920b22e5165bbe411eaf01cfa7f7be09b17bc5e0358fa2dd5a35e5ae1fbe7",
+    "bytes": 355901,
+    "features": 74,
+    "attribution": "© OpenStreetMap contributors",
+    "license": "ODbL-1.0"
+  },
+  "fare_vectors": {
+    "sha256": "68f1525f0c16f3d910054b1ae9dd09fe05df573f90f002d11617360010cb77c4",
+    "bytes": 1159888,
+    "day": "2026-10-13",
+    "cases": 6176
+  },
+  "upcoming_lines": {
+    "sha256": "bf3ebfbb71002ee583f9a72a29dcefb7edd557751fb95218239c3b176777c34e",
+    "bytes": 1836,
+    "count": 2
+  },
+  "station_facilities": {
+    "sha256": "dbea47841cc628360f49fa8b8b805cce43b90dcdc08577015c7bffa8983dff65",
+    "bytes": 3979,
+    "count": 30,
+    "license": "ODbL-1.0"
+  },
+  "boarding_positions": {
+    "sha256": "ca8770d953672ae625dd01e04b9e98a74cc4639057928892df9aa43148d5ea33",
+    "bytes": 681,
+    "count": 0
+  },
+  "fallback_routes": {
+    "sha256": "082b9c4ac556c9127cee6c73fd2aa56d1c4e05017e8a18c07824b3db362c113e",
+    "bytes": 3215,
+    "count": 4
+  }
+}

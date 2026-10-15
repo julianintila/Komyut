@@ -1,6 +1,6 @@
 # Rail Persistence and Refresh - Task 2
 
-This layer adds explicit local load/refresh operations, not screen integration.
+This layer provides explicit local load/refresh operations, separate from screens.
 It uses the existing pure rail validator and preserves base-fare/policy behavior.
 No Laravel endpoint, PostgreSQL access, transfer graph or background job is used.
 
@@ -16,10 +16,11 @@ No Laravel endpoint, PostgreSQL access, transfer graph or background job is used
 - expoRailStorage.ts: SDK 57 Directory/File API in durable documents storage.
 - expoRailRepository.ts: SDK 57 expo/fetch streaming, expo-crypto SHA-256 over
   original bytes, and random candidate IDs. It is intentionally NOT exported by
-  the pure rail index and is never instantiated by existing app screens.
+  the pure rail index. Brick 19 uses a lazy singleton via ui/railRepository.ts.
 
-When UI integration is separately approved, instantiate one repository for the
-rail data source and call load() once at startup. Refresh is explicit only:
+Brick 19 initializes this repository when the separate rail Search mode mounts,
+not at application import. The hook calls load(); the repository revalidates its
+cache once per application session. Refresh remains explicit only. Direct usage:
 
 ```typescript
 import { createExpoRailRepository } from './expoRailRepository';
@@ -110,7 +111,8 @@ TypeScript passed. Expo compatibility exits 1 for the existing patch recommendat
 Lint remains unconfigured. Tests use deterministic local snapshots, mocked network,
 memory storage and SDK-shaped native adapters; no live server is required.
 Real iOS/Android persistence, app termination and device-offline behavior remain
-to be tested when native/UI integration is approved. No screen was changed.
+to be tested on a device. Task 2 itself changed no screen; Brick 19 separately
+connects this repository to rail Search without altering persistence internals.
 
 SDK references:
 https://docs.expo.dev/versions/v57.0.0/sdk/filesystem/

@@ -184,12 +184,10 @@ test('unknown concessions and invalid freshness settings are rejected', () => {
   assert.equal(quote('lrt2_recto', 'lrt2_antipolo', 'beep', '2026-10-13', { claimedModifierIds: 'invalid' }).reason, 'invalid_request');
 });
 
-test('rail module is pure and not wired to network, storage, screens or the Laravel client', () => {
+test('core rail module stays pure and independent of native APIs and the Laravel client', () => {
   for (const name of ['types.ts', 'validateRailBundle.ts', 'deriveRailBaseFare.ts', 'bundledRailData.ts', 'index.ts']) {
     const content = fs.readFileSync(path.join(root, 'features/rail', name), 'utf8');
     assert.doesNotMatch(content, /from ['"](?:react|react-native|expo[^'"]*|.*\/api\/)/);
     assert.doesNotMatch(content, /\bfetch\s*\(|\beval\s*\(|AsyncStorage|FileSystem/);
   }
-  assert.doesNotMatch(fs.readFileSync(path.join(root, 'screens/HomeScreen.tsx'), 'utf8'), /features\/rail/);
-  assert.doesNotMatch(fs.readFileSync(path.join(root, 'screens/SearchScreen.tsx'), 'utf8'), /features\/rail/);
 });

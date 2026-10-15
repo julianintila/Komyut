@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "generated_on": "2026-10-07",
+  "note": "Minutes between trains, used to place predicted trains on the live map and for 'every ~N min' on a station. No operator publishes headways by time of day, so each line carries the one figure an operator or a report has stated, applied across its published operating hours. That is coarse on purpose: peak and off-peak differ and nobody has said by how much. Predicted trains are always drawn and labelled as scheduled, never as live. Band ends are one minute after the last published departure from either terminus, so a train that left on the last departure is still placed until it arrives.",
+  "lines": {
+    "lrt1": {
+      "source_name": "Philstar, 2026-07-20 (headway); LRMC, 2025-03-25 and 2025-12-18 (operating hours)",
+      "source_url": "https://www.philstar.com/headlines/2026/07/20/2543225/government-seeks-p9-billion-funding-new-lrt-2-trains",
+      "hours_source_url": "https://lrmc.ph/2025/03/25/lrt-1-to-extend-operating-hours-starting-26-march-2025/",
+      "verified_on": "2026-10-07",
+      "note": "Reported as 'under four minutes'; four is used so a predicted train is never shown sooner than the report supports.",
+      "weekday": [{ "from": "04:30", "to": "22:46", "minutes": 4 }],
+      "weekend": [{ "from": "05:00", "to": "21:46", "minutes": 4 }]
+    },
+    "lrt2": {
+      "source_name": "Philstar, 2026-07-20 (headway); TopGear, 2026-01-14, and GMA, 2026-07 (operating hours)",
+      "source_url": "https://www.philstar.com/headlines/2026/07/20/2543225/government-seeks-p9-billion-funding-new-lrt-2-trains",
+      "hours_source_url": "https://www.topgear.com.ph/mobility/lrt-2-stations-landmarks-fare-2026-guide-a4682-20260114-lfrm",
+      "verified_on": "2026-10-07",
+      "note": "Reported as a 12 to 14 minute wait with ten trainsets in service; the middle, 13, is used.",
+      "weekday": [{ "from": "05:00", "to": "21:31", "minutes": 13 }],
+      "weekend": [{ "from": "05:00", "to": "21:31", "minutes": 13 }]
+    },
+    "mrt3": {
+      "source_name": "DOTr-MRT3, 2025-11-20 (headway); DOTr-MRT3 timetable and GMA, 2025-04-07 (operating hours)",
+      "source_url": "https://dotrmrt3.gov.ph/news/dotr-mrt-3-unveils-modernization-targets-at-the-7th-philippine-railway-summit",
+      "hours_source_url": "https://www.dotrmrt3.gov.ph/operating-hours.pdf",
+      "verified_on": "2026-10-07",
+      "note": "The operator states a current headway of 8 to 9.5 minutes; 9 is used. An ABS-CBN report from 2024 gave four minutes, probably a peak figure; the newer operator statement is preferred. Weekday last trains follow the extension GMA reported as indefinite (23:09 from Taft); weekend last trains are from the operator's timetable PDF.",
+      "weekday": [{ "from": "04:36", "to": "23:10", "minutes": 9 }],
+      "weekend": [{ "from": "04:37", "to": "22:12", "minutes": 9 }]
+    }
+  }
+}

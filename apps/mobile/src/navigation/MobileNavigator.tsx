@@ -2,11 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 
 import { HomeScreen } from '../screens/HomeScreen';
-import { NearbyScreen } from '../screens/NearbyScreen';
-import { SavedScreen } from '../screens/SavedScreen';
-import { SearchScreen } from '../screens/SearchScreen';
 import { colors } from '../styles/tokens';
-import { TabBar } from './TabBar';
 
 export type TabParamList = {
   Home: undefined;
@@ -36,12 +32,9 @@ export function MobileNavigator() {
       <Tab.Navigator
         initialRouteName="Home"
         screenOptions={{ headerShown: false }}
-        tabBar={(props) => <TabBar {...props} />}
+        tabBar={() => null}
       >
         <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Search" component={SearchScreen} />
-        <Tab.Screen name="Nearby" component={NearbyScreen} />
-        <Tab.Screen name="Saved" component={SavedScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );
